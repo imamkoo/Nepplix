@@ -5,6 +5,30 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+Route::middleware(['auth','role:admin'])->group(function () {
+
+    Route::get('/admin', function () {
+        return Inertia::render('Admin/Dashboard');
+    });
+
+});
+
+Route::middleware(['auth','permission:watch-premium-content'])->group(function () {
+
+    Route::get('/premium', function () {
+        return Inertia::render('PremiumContent');
+    });
+
+});
+
+Route::middleware(['auth','permission:watch-free-content'])->group(function () {
+
+    Route::get('/movies', function () {
+        return Inertia::render('Movies/Index');
+    });
+
+});
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
